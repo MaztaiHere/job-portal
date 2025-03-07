@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job-Portal</title>
+<style>
+    body {
+        display: flex;
+        background: linear-gradient(to right, #9966ff, #9922ff);
+        height: 100vh;
+        position:relative;
+        text-align: center;
+        flex-direction: column;
+        margin: 0;
+        align-items: center;
+        justify-content: center;
+
+    }
+    h1 {
+        font-size: 60px;
+        font-weight: bold;
+        color:white;
+        margin-bottom: 20px;
+        animation: fadeIn 1s ease-in-out;
+
+
+    }
+    .profile {
+        background-color: blue;
+        top: 20px;
+        right: 20px;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px;
+        transition: 0.5s;
+        color: white;
+        position: absolute;
+
+    }
+    .profile:hover {
+        background-color: #ff2200;
+    }
+    .middle {
+        display: flex;
+        gap:25px;
+        animation: slideIn 2.0s ease-in-out;
+
+    }
+    button {
+        font-size: 25px;
+        width: 300px;
+        font-weight: bold;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        transition: 0.5s;
+        padding: 20px 40px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+
+    }
+    .gethired {
+            background-color: blue;
+            color: white;
+            transition: transform 0.5s ease-in-out;
+        }
+        .hire {
+            background-color:blue;
+            color: white;
+            transition: transform 0.5s ease-in-out;
+        }
+        .start {
+            background-color: blue;
+            color: white;
+            transition: transform 0.5s ease-in-out;
+            position: absolute;
+            border-radius: 10px;
+            cursor: pointer;
+            bottom: 50px;
+            left: 35%;
+            width: 500px;
+            text-align: center;
+            ;
+   
+
+        }
+        .gethired:hover {
+            background-color: #f10c0c;
+            transform: scale(1.1);
+        } 
+        .hire:hover {
+            background-color: #f10c0c;
+            transform: scale(1.1);
+        }
+        .start:hover {
+            background-color: #f10c0c;
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+.start {
+    animation: bounce 1s ease-in-out;
+}
+
+    
+</style>
+      
+
+        
+         
+
+
+
+</head>
+<body>
+    <h1>Job Portal</h1>
+<a href="profile.html"><button class="profile">Profile</button></a>
+    <div class="middle">
+<a href="gethired.html"><button class="gethired">Get Hired</button></a>
+<a href="hireaperson.html"><button class="hire">Hire a Person</button></a>
+
+
+</div>
+ 
+<a  href="start"><button class="start">Start Your Business or career..</button></a>
+    
+</body>
+</html>

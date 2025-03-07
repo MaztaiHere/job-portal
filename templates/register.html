@@ -3,9 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Job Portal - Register</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #121212;
+            background: url("C:/Users/jjm20/OneDrive/Pictures/Screenshots/Screenshot%202025-03-06%20161812.png");
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container { 
+            width: 500px; 
+            background: rgba(40, 40, 40, 0.95); 
+            padding: 40px; 
+            border-radius: 16px; 
+            box-shadow: 0px 6px 25px rgba(255, 255, 255, 0.3);
+            text-align: center;
+        }
+        h2 { color: #32CD32; font-size: 30px; text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); }
+        input, select, button { 
+            width: 100%; 
+            padding: 14px; 
+            margin: 12px 0;
+            border: none; 
+            border-radius: 8px;
+            font-size: 16px;
+            display: block;
+            box-sizing: border-box;
+        }
+        input, select { background: #222; color: white; border: 1px solid #32CD32; }
+        button { 
+            background: linear-gradient(90deg, #32CD32, #228B22); 
+            color: white; 
+            font-weight: bold;
+            cursor: pointer; 
+            transition: 0.3s;
+            letter-spacing: 1px;
+        }
+        button:hover { background: linear-gradient(90deg, #3CB371, #006400); transform: scale(1.05); }
+        p { margin-top: 15px; color: white; font-size: 14px; }
+        a { color: #32CD32; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        a:hover { text-decoration: underline; color: #228B22; }
+        .success-message {
+            display: none;
+            color: #32CD32;
+            font-size: 18px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function registerUser(event) {
+            event.preventDefault(); 
+
+            document.getElementById("successMessage").style.display = "block";
+
+            setTimeout(function() {
+                window.location.href = ".html";
+            }, 2000);
+        }
+    </script>
 </head>
 <body>
-    
+    <div class="container">
+        <h2>Register for Job Portal</h2>
+        <form onsubmit="registerUser(event)">
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="date" id="dob" required>
+            <input type="text" id="address" placeholder="Address" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="text" id="mobile" placeholder="Mobile Number" required>
+            <select id="gender" required>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+            <input type="password" id="password" placeholder="Create Password" required>
+            <button type="submit">Register</button>
+        </form>
+        <p id="successMessage" class="success-message">✔ Registration Successful! Redirecting to login...</p>
+        <p>Already have an account? <a href="login.html">Login here</a></p>
+    </div>
 </body>
 </html>

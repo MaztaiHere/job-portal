@@ -59,11 +59,32 @@
         function registerUser(event) {
             event.preventDefault(); 
 
+            // Show success message
             document.getElementById("successMessage").style.display = "block";
 
-            setTimeout(function() {
-                window.location.href = ".html";
-            }, 2000);
+            // Submit the form data to the server
+            const form = event.target;
+            const formData = new FormData(form);
+
+            fetch("/register", {
+                method: "POST",
+                body: formData,
+            })
+            .then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url; // Redirect to login page
+                } else {
+                    return response.text();
+                }
+            })
+            .then(data => {
+                if (data) {
+                    alert(data); // Show error message if registration fails
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
         }
     </script>
 </head>
@@ -71,22 +92,22 @@
     <div class="container">
         <h2>Register for Job Portal</h2>
         <form onsubmit="registerUser(event)">
-            <input type="text" id="name" placeholder="Full Name" required>
-            <input type="date" id="dob" required>
-            <input type="text" id="address" placeholder="Address" required>
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="text" id="mobile" placeholder="Mobile Number" required>
-            <select id="gender" required>
+            <input type="text" id="name" name="name" placeholder="Full Name" required>
+            <input type="date" id="dob" name="dob" required>
+            <input type="text" id="address" name="address" placeholder="Address" required>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <input type="text" id="mobile" name="mobile" placeholder="Mobile Number" required>
+            <select id="gender" name="gender" required>
                 <option value="">Select Gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
             </select>
-            <input type="password" id="password" placeholder="Create Password" required>
+            <input type="password" id="password" name="password" placeholder="Create Password" required>
             <button type="submit">Register</button>
         </form>
         <p id="successMessage" class="success-message">✔ Registration Successful! Redirecting to login...</p>
-        <p>Already have an account? <a href="login.html">Login here</a></p>
+        <p>Already have an account? <a href="/login">Login here</a></p>
     </div>
 </body>
 </html>

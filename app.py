@@ -1,12 +1,18 @@
-from flask import Flask, render_template, request, redirect, url_for, session,jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, flash, send_from_directory, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+import os
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"  # Change this to a secure secret key
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+app.config["UPLOAD_FOLDER"] = "uploads"  # Folder to store uploaded files
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+
+# Ensure the upload folder exists
+os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
 # User Model
 class User(db.Model):
@@ -19,9 +25,22 @@ class User(db.Model):
 class Job(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
-    skillset = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.String(500), nullable=False)
+    location = db.Column(db.String(100), nullable=False)
     salary = db.Column(db.String(100), nullable=False)
-    employer = db.Column(db.String(100), nullable=False)
+    skills_required = db.Column(db.String(200), nullable=False)
+    company_name = db.Column(db.String(100), nullable=False)
+    posted_by = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+
+# JobSeeker Model (to store job seeker details)
+class JobSeeker(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    skills = db.Column(db.String(200), nullable=False)
+    expected_salary = db.Column(db.String(100), nullable=False)
+    cv_filename = db.Column(db.String(200), nullable=False)
+    photo_filename = db.Column(db.String(200), nullable=False)
 
 # Home Route
 @app.route("/")
@@ -81,30 +100,32 @@ def dashboard():
     jobs = Job.query.all()
     return render_template("dashboard.html", jobs=jobs)
 
-
 # Profile Route
 @app.route("/profile")
 def profile():
     if "user_id" not in session:
         return redirect(url_for("login"))
 
-    jobs = Job.query.all()
-    return render_template("profile.html", jobs=jobs)
+    user = User.query.get(session["user_id"])
+    return render_template("profile.html", user=user)
 
 # Get Hired Route
 @app.route("/get_hired")
 def get_hired():
     if "user_id" not in session:
-        return redirect(url_for("login"))  # Redirect to login if user is not logged in
-    return render_template("get_hired.html")
+        return redirect(url_for("login"))
+
+    jobs = Job.query.all()
+    return render_template("get_hired.html", jobs=jobs)
 
 # Hire a Person Route
 @app.route("/hire_person")
 def hire_person():
     if "user_id" not in session:
-        return redirect(url_for("login"))  # Redirect to login if user is not logged in
-    return render_template("hire_person.html")
+        return redirect(url_for("login"))
 
+    job_seekers = JobSeeker.query.all()
+    return render_template("hire_person.html", job_seekers=job_seekers)
 
 # Post Job Route
 @app.route("/post_job", methods=["POST"])
@@ -113,16 +134,66 @@ def post_job():
         return redirect(url_for("login"))
 
     title = request.form.get("title")
-    skillset = request.form.get("skillset")
+    description = request.form.get("description")
+    location = request.form.get("location")
     salary = request.form.get("salary")
-    employer = session["user_id"]
+    skills_required = request.form.get("skills_required")
+    company_name = request.form.get("company_name")
 
     # Create a new job
-    new_job = Job(title=title, skillset=skillset, salary=salary, employer=employer)
+    new_job = Job(
+        title=title,
+        description=description,
+        location=location,
+        salary=salary,
+        skills_required=skills_required,
+        company_name=company_name,
+        posted_by=session["user_id"]
+    )
     db.session.add(new_job)
     db.session.commit()
 
+    flash("Job posted successfully!", "success")
     return redirect(url_for("dashboard"))
+
+# Post Requirements Route (for job seekers)
+@app.route("/post_requirements", methods=["POST"])
+def post_requirements():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    name = request.form.get("name")
+    skills = request.form.get("skills")
+    salary = request.form.get("salary")
+    cv_file = request.files["cv"]
+    photo_file = request.files["photo"]
+
+    # Save files to the upload folder
+    cv_filename = secure_filename(cv_file.filename)
+    photo_filename = secure_filename(photo_file.filename)
+
+    cv_file.save(os.path.join(app.config["UPLOAD_FOLDER"], cv_filename))
+    photo_file.save(os.path.join(app.config["UPLOAD_FOLDER"], photo_filename))
+
+    # Save job seeker details to the database
+    job_seeker = JobSeeker(
+        user_id=session["user_id"],
+        name=name,
+        skills=skills,
+        expected_salary=salary,
+        cv_filename=cv_filename,
+        photo_filename=photo_filename
+    )
+    db.session.add(job_seeker)
+    db.session.commit()
+
+    flash("Your requirements have been submitted successfully!", "success")
+    return redirect(url_for("get_hired"))
+
+# Route to serve uploaded files
+@app.route("/uploads/<filename>")
+def download_file(filename):
+    return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
 # Run the application
 if __name__ == "__main__":

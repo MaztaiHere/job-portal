@@ -24,7 +24,6 @@
         margin-bottom: 20px;
         animation: fadeIn 1s ease-in-out;
 
-
     }
     .profile {
         background-color: blue;
@@ -126,10 +125,10 @@
 
 <body>
     <h1>Job Portal</h1>
-<a href="profile.html"><button class="profile">Profile</button></a>
+<a href="{{ url_for('profile') }}"><button class="profile">Profile</button></a>
     <div class="middle">
-<a href="get-hired.html"><button class="gethired">Get Hired</button></a>
-<a href="hire-person.html"><button class="hire">Hire a Person</button></a>
+<a href="{{ url_for('get_hired') }}"><button class="gethired">Get Hired</button></a>
+<a href="{{ url_for('hire_person') }}"><button class="hire">Hire a Person</button></a>
 
 
 </div>

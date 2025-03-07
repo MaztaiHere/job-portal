@@ -81,6 +81,31 @@ def dashboard():
     jobs = Job.query.all()
     return render_template("dashboard.html", jobs=jobs)
 
+
+# Profile Route
+@app.route("/profile")
+def profile():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    jobs = Job.query.all()
+    return render_template("profile.html", jobs=jobs)
+
+# Get Hired Route
+@app.route("/get_hired")
+def get_hired():
+    if "user_id" not in session:
+        return redirect(url_for("login"))  # Redirect to login if user is not logged in
+    return render_template("get_hired.html")
+
+# Hire a Person Route
+@app.route("/hire_person")
+def hire_person():
+    if "user_id" not in session:
+        return redirect(url_for("login"))  # Redirect to login if user is not logged in
+    return render_template("hire_person.html")
+
+
 # Post Job Route
 @app.route("/post_job", methods=["POST"])
 def post_job():

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Hired | Job Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #333;
+            color: white;
+            padding: 15px;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+        .job-listing {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .job-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .interested-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .interested-btn:hover {
+            background-color: #218838;
+        }
+        .footer {
+            text-align: center;
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">Job Portal</div>
+        <div class="profile">Profile</div>
+    </nav>
+    
+    <main class="container">
+        <h1>Available Jobs for You</h1>
+        
+        <div class="job-listing">
+            <div class="job-box">
+                <h2>Software Engineer</h2>
+                <p>Location: New York, USA</p>
+                <p>Experience: 2+ years</p>
+                <p>Skills: JavaScript, React, Node.js</p>
+                <button class="interested-btn">Interested</button>
+            </div>
+            
+            <div class="job-box">
+                <h2>Data Analyst</h2>
+                <p>Location: London, UK</p>
+                <p>Experience: 1+ years</p>
+                <p>Skills: SQL, Python, Tableau</p>
+                <button class="interested-btn">Interested</button>
+            </div>
+            
+            <div class="job-box">
+                <h2>Cybersecurity Specialist</h2>
+                <p>Location: Remote</p>
+                <p>Experience: 3+ years</p>
+                <p>Skills: Network Security, Ethical Hacking</p>
+                <button class="interested-btn">Interested</button>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <p>Get started with your career</p>
+        <p>Post your requirements/needs</p>
+    </footer>
+</body>
+</html>

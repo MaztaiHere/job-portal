@@ -4,45 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post Job Availability</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            background: url("C:/Users/jjm20/OneDrive/Pictures/Screenshots/Screenshot%202025-03-06%20161812.png") no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
         .form-container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 1200px;
+            background: rgba(40, 40, 40, 0.95);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0px 6px 25px rgba(255, 255, 255, 0.3);
             display: flex;
             gap: 20px;
         }
         .form-container h2 {
+            color: #32CD32;
             text-align: center;
-            margin-bottom: 20px;
+            font-size: 30px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
         }
-        .btn-submit {
-            background-color: #28a745;
-            border: none;
+        input, select, button {
             width: 100%;
-            padding: 10px;
-            border-radius: 25px;
+            padding: 14px;
+            margin: 12px 0;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            display: block;
+            box-sizing: border-box;
         }
-        .btn-submit:hover {
-            background-color: #218838;
+        input, select {
+            background: #222;
+            color: white;
+            border: 1px solid #32CD32;
+        }
+        button {
+            background: linear-gradient(90deg, #32CD32, #228B22);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            letter-spacing: 1px;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #3CB371, #006400);
+            transform: scale(1.05);
         }
         .photo-preview {
             width: 200px;
             height: 200px;
-            border: 2px dashed #ccc;
+            border: 2px dashed #32CD32;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            background: #222;
         }
         .photo-preview img {
             max-width: 100%;
@@ -56,53 +83,37 @@
 </head>
 <body>
     <div class="form-container">
-        <!-- Photo Preview Section -->
         <div class="photo-preview">
             <img id="preview" src="#" alt="Profile Photo Preview" style="display: none;">
-            <span id="placeholder">Upload your profile photo</span>
+            <span id="placeholder" style="color: white;">Upload your profile photo</span>
         </div>
-
-        <!-- Form Fields Section -->
         <div class="form-fields">
             <h2>Post Your Job Availability</h2>
             <form action="{{ url_for('post_job') }}" method="POST" enctype="multipart/form-data">
-                <!-- Name -->
                 <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
+                    <label for="name" class="form-label text-white">Name</label>
                     <input type="text" class="form-control" id="name" name="name" required>
                 </div>
-
-                <!-- Skills -->
                 <div class="mb-3">
-                    <label for="skills" class="form-label">Skills</label>
+                    <label for="skills" class="form-label text-white">Skills</label>
                     <input type="text" class="form-control" id="skills" name="skills" required>
                 </div>
-
-                <!-- Expected Salary -->
                 <div class="mb-3">
-                    <label for="salary" class="form-label">Expected Salary</label>
+                    <label for="salary" class="form-label text-white">Expected Salary</label>
                     <input type="text" class="form-control" id="salary" name="salary" required>
                 </div>
-
-                <!-- Upload CV -->
                 <div class="mb-3">
-                    <label for="cv" class="form-label">Upload CV (PDF or Word)</label>
+                    <label for="cv" class="form-label text-white">Upload CV (PDF or Word)</label>
                     <input type="file" class="form-control" id="cv" name="cv" accept=".pdf,.doc,.docx" required>
                 </div>
-
-                <!-- Upload Photo -->
                 <div class="mb-3">
-                    <label for="photo" class="form-label">Upload Profile Photo (JPEG or PNG)</label>
+                    <label for="photo" class="form-label text-white">Upload Profile Photo (JPEG or PNG)</label>
                     <input type="file" class="form-control" id="photo" name="photo" accept=".jpg,.jpeg,.png" required>
                 </div>
-
-                <!-- Submit Button -->
                 <button type="submit" class="btn btn-submit">Submit</button>
             </form>
         </div>
     </div>
-
-    <!-- JavaScript for Photo Preview -->
     <script>
         const photoInput = document.getElementById('photo');
         const preview = document.getElementById('preview');
@@ -125,8 +136,6 @@
             }
         });
     </script>
-
-    <!-- Bootstrap JS and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>

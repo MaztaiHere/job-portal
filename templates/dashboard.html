@@ -1,104 +1,331 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Byte-Hire</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Byte-Hire Dashboard</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-        body {
-            background-color: #f8f8f8;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-        .navbar {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 30px;
-            font-size: 20px;
-            font-weight: bold;
-            background: white;
-            border-bottom: 2px solid black;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            font-family: 'Courier New', Courier, monospace;
-        }
-        .container {
-            text-align: center;
-            margin-top: 100px; 
-        }
-        .options {
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            margin-top: 30px;
-        }
-        .option {
-            text-align: center;
-            border: 2px solid transparent;
-            padding: 20px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-        .option img {
-            width: 200px;
-            height: auto;
-            display: block;
-            margin: 0 auto 10px;
-        }
-        .option:hover {
-            border-color: purple;
-        }
-        .btn {
-            margin-top: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            border: 2px solid black;
-            background: white;
-            cursor: pointer;
-            border-radius: 8px;
-            display: block;
-            margin: auto;
-        }
-        .btn:hover {
-            background: #eaeaea;
-        }
-        .start-btn {
-            margin-top: 30px;
-            padding: 15px 30px;
-            font-size: 18px;
-        }
+      body {
+        background-image: url("{{ url_for('static', filename='background.jpg') }}");
+        background-size: cover; /* Ensures the image covers the entire background */
+        background-position: center; /* Centers the image */
+        background-repeat: no-repeat; /* Prevents the image from repeating */
+        background-attachment: fixed; /* Ensures the image stays fixed while scrolling */
+        height: 100vh; /* Ensures the body takes up the full viewport height */
+        margin: 0;
+        padding: 0;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+      body {
+        background-color: #f8f8f8;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      .navbar {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 30px;
+        font-size: 20px;
+        font-weight: bold;
+        background: white;
+        border-bottom: 2px solid #800000; /* Dark maroon border */
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        font-family: "Courier New", Courier, monospace;
+      }
+      .container {
+        text-align: center;
+        margin-top: 100px;
+      }
+      .options {
+        display: flex;
+        justify-content: center;
+        gap: 50px;
+        margin-top: 30px;
+      }
+      .option {
+        text-align: center;
+        border: 2px solid #800000; /* Dark maroon border */
+        padding: 20px;
+        border-radius: 10px;
+        cursor: pointer;
+        background: white;
+        transition: 0.3s;
+      }
+      .option:hover {
+        background: #f4f4f4; /* Light gray background on hover */
+        transform: scale(1.05);
+      }
+      .btn {
+        margin-top: 10px;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: 2px solid #800000; /* Dark maroon border */
+        background: white;
+        cursor: pointer;
+        border-radius: 8px;
+        display: block;
+        margin: auto;
+        transition: 0.3s;
+      }
+      .btn:hover {
+        background: #800000; /* Dark maroon background on hover */
+        color: white;
+      }
+      .start-btn {
+        margin-top: 30px;
+        padding: 15px 30px;
+        font-size: 18px;
+      }
+      .chat-container {
+        width: 60%;
+        max-width: 800px;
+        height: 80vh;
+        display: flex;
+        flex-direction: column;
+        border: 2px solid #800000; /* Dark maroon border */
+        border-radius: 16px;
+        background: white;
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        margin-top: 100px;
+        display: none; /* Initially hidden */
+      }
+      .chat-box {
+        flex: 1;
+        overflow-y: auto;
+        padding: 15px;
+        border-bottom: 2px solid #ccc;
+        display: flex;
+        flex-direction: column;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        background: white;
+      }
+      .chat-box div {
+        padding: 8px;
+        margin: 5px 0;
+        border-radius: 8px;
+        max-width: 75%;
+        white-space: pre-wrap;
+      }
+      .user-message {
+        background: linear-gradient(
+          90deg,
+          #993333,
+          #800000
+        ); /* Maroon gradient */
+        color: white;
+        align-self: flex-end;
+      }
+      .bot-message {
+        background: #f4f4f4; /* Light gray for bot messages */
+        color: #444;
+        align-self: flex-start;
+      }
+      .thinking {
+        font-style: italic;
+        color: #555;
+      }
+      .input-container {
+        display: flex;
+        padding: 10px;
+        background: white;
+        border-top: 2px solid #800000; /* Dark maroon border */
+      }
+      #userInput {
+        flex: 1;
+        padding: 14px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+        background: #faf8f5; /* Light off-white */
+        color: #444;
+      }
+      #sendButton {
+        padding: 14px 20px;
+        margin-left: 10px;
+        background: linear-gradient(
+          90deg,
+          #993333,
+          #800000
+        ); /* Maroon gradient */
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+      }
+      #sendButton:hover {
+        background: linear-gradient(
+          90deg,
+          #a52a2a,
+          #4b0000
+        ); /* Darker maroon gradient */
+        transform: scale(1.05);
+      }
+      .back-btn {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: 2px solid #800000; /* Dark maroon border */
+        background: white;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.3s;
+      }
+      .back-btn:hover {
+        background: #800000; /* Dark maroon background on hover */
+        color: white;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="navbar">
-        <div>byte-hire</div>
-        <a href="{{ url_for('profile') }}"><div>profile</div></a>
+      <div>byte-hire</div>
+      <a href="{{ url_for('profile') }}"><div>profile</div></a>
     </div>
 
-    <div class="container">
-        <div class="options">
-            <div class="option">
-                <img src="{{ url_for('static', filename='images/get hired.jpg') }}" alt="Get Hired">
-                <a href="{{ url_for('get_hired') }}"><button class="btn">Get Hired</button></a>
-            </div>
-            <div class="option">
-                <img src="{{ url_for('static', filename='images/hrie person.jpg') }}" alt="Post Jobs">
-                <a href="{{ url_for('hire_person') }}"><button class="btn">Hire a Person</button></a>
-            </div>
+    <div class="container" id="dashboardContainer">
+      <div class="options">
+        <div class="option">
+          <a href="{{ url_for('get_hired') }}"
+            ><button class="btn">Get Hired</button></a
+          >
         </div>
-        <a  href="start"><button class="btn start-btn">Get Started</button></a>
+        <div class="option">
+          <a href="{{ url_for('hire_person') }}"
+            ><button class="btn">Hire a Person</button></a
+          >
+        </div>
+      </div>
+      <button class="btn start-btn" id="startChat">Chat with us</button>
     </div>
-</body>
+
+    <div class="chat-container" id="chatContainer">
+      <div id="chatBox" class="chat-box"></div>
+      <div class="input-container">
+        <input
+          type="text"
+          id="userInput"
+          placeholder="Type your message..."
+          onkeypress="handleKeyPress(event)"
+        />
+        <button id="sendButton" onclick="sendMessage()">Send</button>
+      </div>
+      <button class="back-btn" id="backButton">Back to Dashboard</button>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const API_KEY = "AIzaSyBrJ5HfwxNDHBp8QtIn8nI6ntv0HfIVQlc";
+        const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${API_KEY}`;
+
+        async function sendMessage() {
+          let inputField = document.getElementById("userInput");
+          let chatBox = document.getElementById("chatBox");
+          let message = inputField.value.trim();
+
+          if (message === "") return;
+
+          let userMessage = document.createElement("div");
+          userMessage.textContent = message;
+          userMessage.classList.add("user-message");
+          chatBox.appendChild(userMessage);
+          chatBox.scrollTop = chatBox.scrollHeight;
+          inputField.value = "";
+
+          let thinkingMessage = document.createElement("div");
+          thinkingMessage.textContent = "Thinking...";
+          thinkingMessage.classList.add("thinking");
+          chatBox.appendChild(thinkingMessage);
+          chatBox.scrollTop = chatBox.scrollHeight;
+
+          // 🔹 Modify the prompt to **force AI to respond only to relevant questions**
+          let modifiedMessage = `You are a job and business assistant. Answer ONLY if the question is related to jobs, employment, hiring, resumes, careers, business, or startups. If the question is unrelated, reply with: "⚠️ Please ask a relevant question related to jobs or business." The user's message is: "${message}"`;
+
+          try {
+            let response = await fetch(API_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                contents: [{ parts: [{ text: modifiedMessage }] }],
+              }),
+            });
+
+            let data = await response.json();
+            console.log("API Response:", data);
+
+            chatBox.removeChild(thinkingMessage);
+
+            if (data.error) {
+              throw new Error(`API Error: ${data.error.message}`);
+            }
+
+            if (data.candidates && data.candidates.length > 0) {
+              let botText =
+                data.candidates[0].content.parts[0].text ||
+                "No response received.";
+              botText = botText.replace(/\*/g, "");
+              let botMessage = document.createElement("div");
+              botMessage.innerHTML = botText.replace(/\n/g, "<br>");
+              botMessage.classList.add("bot-message");
+              chatBox.appendChild(botMessage);
+              chatBox.scrollTop = chatBox.scrollHeight;
+            } else {
+              throw new Error("Unexpected API response format.");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            chatBox.removeChild(thinkingMessage);
+            let errorMessage = document.createElement("div");
+            errorMessage.textContent = "Error: " + error.message;
+            errorMessage.style.color = "red";
+            chatBox.appendChild(errorMessage);
+          }
+        }
+
+        function handleKeyPress(event) {
+          if (event.key === "Enter") {
+            sendMessage();
+          }
+        }
+
+        // Show chat container when "Chat with us" button is clicked
+        document
+          .getElementById("startChat")
+          .addEventListener("click", function (event) {
+            event.preventDefault();
+            document.getElementById("chatContainer").style.display = "flex";
+            document.getElementById("dashboardContainer").style.display =
+              "none";
+          });
+
+        // Show dashboard container when "Back to Dashboard" button is clicked
+        document
+          .getElementById("backButton")
+          .addEventListener("click", function (event) {
+            event.preventDefault();
+            document.getElementById("dashboardContainer").style.display =
+              "block";
+            document.getElementById("chatContainer").style.display = "none";
+          });
+
+        window.sendMessage = sendMessage;
+        window.handleKeyPress = handleKeyPress;
+      });
+    </script>
+  </body>
 </html>

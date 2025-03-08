@@ -91,57 +91,55 @@
     </div>
 
     <script>
-        const API_KEY = "KEY"; // Replace with your actual Gemini API key
-        const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${API_KEY}`;
-
-        async function sendMessage() {
-            let inputField = document.getElementById("userInput");
-            let chatBox = document.getElementById("chatBox");
-            let message = inputField.value.trim();
-
-            if (message) {
-                // Add user message to chat
+        document.addEventListener('DOMContentLoaded', function() {
+            const API_KEY = "KEY";
+            const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${API_KEY}`;
+    
+            async function sendMessage() {
+                let inputField = document.getElementById("userInput");
+                let chatBox = document.getElementById("chatBox");
+                let message = inputField.value.trim();
+    
+                if (message === "") return;
+    
                 let userMessage = document.createElement("div");
                 userMessage.textContent = message;
                 userMessage.classList.add("user-message");
                 chatBox.appendChild(userMessage);
                 chatBox.scrollTop = chatBox.scrollHeight;
                 inputField.value = "";
-
-                // Show "thinking..." message
+    
                 let thinkingMessage = document.createElement("div");
                 thinkingMessage.textContent = "Thinking...";
                 thinkingMessage.classList.add("thinking");
                 chatBox.appendChild(thinkingMessage);
                 chatBox.scrollTop = chatBox.scrollHeight;
+    
+                // 🔹 Modify the prompt to **force AI to respond only to relevant questions**
+                let modifiedMessage = `You are a job and business assistant. Answer ONLY if the question is related to jobs, employment, hiring, resumes, careers, business, or startups. If the question is unrelated, reply with: "⚠️ Please ask a relevant question related to jobs or business." The user's message is: "${message}"`;
 
+    
                 try {
                     let response = await fetch(API_URL, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
-                            contents: [{ parts: [{ text: message }] }]
+                            contents: [{ parts: [{ text: modifiedMessage }] }]
                         })
                     });
-
+    
                     let data = await response.json();
-                    console.log("API Response:", data); // Debugging
-
-                    // Remove "thinking..." message
+                    console.log("API Response:", data);
+    
                     chatBox.removeChild(thinkingMessage);
-
+    
                     if (data.error) {
                         throw new Error(`API Error: ${data.error.message}`);
                     }
-
-                    // Extract AI response correctly
+    
                     if (data.candidates && data.candidates.length > 0) {
                         let botText = data.candidates[0].content.parts[0].text || "No response received.";
-
-                        // Remove stars (*) to prevent Markdown formatting issues
-                        botText = botText.replace(/\*/g, ""); 
-
-                        // Preserve line breaks
+                        botText = botText.replace(/\*/g, "");
                         let botMessage = document.createElement("div");
                         botMessage.innerHTML = botText.replace(/\n/g, "<br>");
                         botMessage.classList.add("bot-message");
@@ -150,23 +148,27 @@
                     } else {
                         throw new Error("Unexpected API response format.");
                     }
-
+    
                 } catch (error) {
                     console.error("Error:", error);
                     chatBox.removeChild(thinkingMessage);
                     let errorMessage = document.createElement("div");
-                    errorMessage.textContent = error.message;
+                    errorMessage.textContent = "Error: " + error.message;
                     errorMessage.style.color = "red";
                     chatBox.appendChild(errorMessage);
                 }
             }
-        }
-
-        function handleKeyPress(event) {
-            if (event.key === "Enter") {
-                sendMessage();
+    
+            function handleKeyPress(event) {
+                if (event.key === "Enter") {
+                    sendMessage();
+                }
             }
-        }
+    
+            window.sendMessage = sendMessage;
+            window.handleKeyPress = handleKeyPress;
+        });
     </script>
+    
 </body>
 </html>

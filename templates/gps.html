@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Matching Platform</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        #map {
+            height: 500px;
+            width: 90%;
+            margin: auto;
+            border: 2px solid #ccc;
+        }
+        .container {
+            margin: 20px auto;
+            width: 90%;
+            max-width: 600px;
+        }
+        select, button {
+            padding: 10px;
+            margin: 10px 5px;
+            font-size: 16px;
+        }
+        #status {
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h2>Job Matching Platform</h2>
+    
+    <div class="container">
+        <label for="jobType">Select Job Type:</label>
+        <select id="jobType">
+            <option value="Plumber">Plumber</option>
+            <option value="Electrician">Electrician</option>
+            <option value="Mechanic">Mechanic</option>
+            <option value="Construction Worker">Construction Worker</option>
+        </select>
+        <button onclick="findNearbyWorkers()">Find Workers</button>
+        <p id="status"></p>
+    </div>
+    
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        let userMarker, employerMarker;
+        let jobSeekers = [];  // Stores job seekers' data
+
+        // Initialize the map
+        const map = L.map('map').setView([20, 77], 5); // Default view (India)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Function for job seekers to share their location
+        function getUserLocation() {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    let lat = position.coords.latitude;
+                    let lon = position.coords.longitude;
+
+                    // Add job seeker marker
+                    userMarker = L.marker([lat, lon]).addTo(map)
+                        .bindPopup("You are here (Job Seeker)").openPopup();
+
+                    map.setView([lat, lon], 12);
+
+                    // Simulating adding job seeker data
+                    jobSeekers.push({ lat, lon, type: "Plumber" });  // Example data
+                    jobSeekers.push({ lat: lat + 0.02, lon: lon + 0.02, type: "Electrician" });
+                    jobSeekers.push({ lat: lat - 0.01, lon: lon - 0.01, type: "Mechanic" });
+
+                    document.getElementById("status").textContent = "Your location is shared.";
+                }, () => alert("Location access denied!"));
+            } else {
+                alert("Geolocation is not supported by your browser.");
+            }
+        }
+
+        // Function for employers to find job seekers
+        function findNearbyWorkers() {
+            let selectedJob = document.getElementById("jobType").value;
+
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    let empLat = position.coords.latitude;
+                    let empLon = position.coords.longitude;
+
+                    if (employerMarker) map.removeLayer(employerMarker);
+
+                    employerMarker = L.marker([empLat, empLon], { color: "red" }).addTo(map)
+                        .bindPopup("Employer Location").openPopup();
+                    
+                    map.setView([empLat, empLon], 12);
+
+                    // Remove previous worker markers
+                    jobSeekers.forEach(worker => {
+                        if (worker.marker) map.removeLayer(worker.marker);
+                    });
+
+                    // Show only relevant job seekers
+                    jobSeekers.forEach(worker => {
+                        if (worker.type === selectedJob) {
+                            worker.marker = L.marker([worker.lat, worker.lon], { color: "blue" }).addTo(map)
+                                .bindPopup(`Worker: ${worker.type}`);
+                        }
+                    });
+
+                }, () => alert("Employer's location access denied!"));
+            } else {
+                alert("Geolocation is not supported.");
+            }
+        }
+
+        // Auto-get user location on page load (Job Seeker)
+        getUserLocation();
+    </script>
+</body>
+</html>

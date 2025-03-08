@@ -3,137 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job-Portal</title>
-<style>
-    body {
-        display: flex;
-        background: linear-gradient(to right, #9966ff, #9922ff);
-        height: 100vh;
-        position:relative;
-        text-align: center;
-        flex-direction: column;
-        margin: 0;
-        align-items: center;
-        justify-content: center;
-
-    }
-    h1 {
-        font-size: 60px;
-        font-weight: bold;
-        color:white;
-        margin-bottom: 20px;
-        animation: fadeIn 1s ease-in-out;
-
-    }
-    .profile {
-        background-color: blue;
-        top: 20px;
-        right: 20px;
-        padding: 15px 30px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 18px;
-        transition: 0.5s;
-        color: white;
-        position: absolute;
-
-    }
-    .profile:hover {
-        background-color: #ff2200;
-    }
-    .middle {
-        display: flex;
-        gap:25px;
-        animation: slideIn 2.0s ease-in-out;
-
-    }
-    button {
-        font-size: 25px;
-        width: 300px;
-        font-weight: bold;
-        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-        transition: 0.5s;
-        padding: 20px 40px;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-
-    }
-    .gethired {
-            background-color: blue;
-            color: white;
-            transition: transform 0.5s ease-in-out;
+    <title>Byte-Hire</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
-        .hire {
-            background-color:blue;
-            color: white;
-            transition: transform 0.5s ease-in-out;
+        body {
+            background-color: #f8f8f8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
-        .start {
-            background-color: blue;
-            color: white;
-            transition: transform 0.5s ease-in-out;
-            position: absolute;
+        .navbar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 30px;
+            font-size: 20px;
+            font-weight: bold;
+            background: white;
+            border-bottom: 2px solid black;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .container {
+            text-align: center;
+            margin-top: 100px; 
+        }
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 30px;
+        }
+        .option {
+            text-align: center;
+            border: 2px solid transparent;
+            padding: 20px;
             border-radius: 10px;
             cursor: pointer;
-            bottom: 50px;
-            left: 35%;
-            width: 500px;
-            text-align: center;
-            ;
-   
-
         }
-        .gethired:hover {
-            background-color: #f10c0c;
-            transform: scale(1.1);
-        } 
-        .hire:hover {
-            background-color: #f10c0c;
-            transform: scale(1.1);
+        .option img {
+            width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto 10px;
         }
-        .start:hover {
-            background-color: #f10c0c;
-            transform: scale(1.1);
+        .option:hover {
+            border-color: purple;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: 2px solid black;
+            background: white;
+            cursor: pointer;
+            border-radius: 8px;
+            display: block;
+            margin: auto;
         }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .btn:hover {
+            background: #eaeaea;
         }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
+        .start-btn {
+            margin-top: 30px;
+            padding: 15px 30px;
+            font-size: 18px;
         }
-        @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-}
-.start {
-    animation: bounce 1s ease-in-out;
-}
-
-    
-</style>
+    </style>
 </head>
-
-
 <body>
-    <h1>Job Portal</h1>
-<a href="{{ url_for('profile') }}"><button class="profile">Profile</button></a>
-    <div class="middle">
-<a href="{{ url_for('get_hired') }}"><button class="gethired">Get Hired</button></a>
-<a href="{{ url_for('hire_person') }}"><button class="hire">Hire a Person</button></a>
+    <div class="navbar">
+        <div>byte-hire</div>
+        <a href="{{ url_for('profile') }}"><div>profile</div></a>
+    </div>
 
-
-</div>
- 
-<a  href="start"><button class="start">Start Your Business or career..</button></a>
-    
+    <div class="container">
+        <div class="options">
+            <div class="option">
+                <img src="{{ url_for('static', filename='images/get hired.jpg') }}" alt="Get Hired">
+                <a href="{{ url_for('get_hired') }}"><button class="btn">Get Hired</button></a>
+            </div>
+            <div class="option">
+                <img src="{{ url_for('static', filename='images/hrie person.jpg') }}" alt="Post Jobs">
+                <a href="{{ url_for('hire_person') }}"><button class="btn">Hire a Person</button></a>
+            </div>
+        </div>
+        <a  href="start"><button class="btn start-btn">Get Started</button></a>
+    </div>
 </body>
 </html>

@@ -20,6 +20,7 @@ class User(db.Model):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
+    profile_photo = db.Column(db.String(200), nullable=True)  # New column for profile photo
 
 # Job Model
 class Job(db.Model):
@@ -63,8 +64,17 @@ def register():
         # Hash the password
         hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
 
+        # Handle profile photo upload during registration
+        profile_photo = None
+        if "profile_photo" in request.files:
+            file = request.files["profile_photo"]
+            if file.filename != "":
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+                profile_photo = filename
+
         # Create a new user
-        new_user = User(name=name, email=email, password=hashed_password)
+        new_user = User(name=name, email=email, password=hashed_password, profile_photo=profile_photo)
         db.session.add(new_user)
         db.session.commit()
 
@@ -72,7 +82,6 @@ def register():
         return redirect(url_for("login"))
 
     return render_template("register.html")
-
 # Login Route
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -99,14 +108,31 @@ def dashboard():
 
     jobs = Job.query.all()
     return render_template("dashboard.html", jobs=jobs)
-
-# Profile Route
-@app.route("/profile")
+@app.route("/profile", methods=["GET", "POST"])
 def profile():
     if "user_id" not in session:
         return redirect(url_for("login"))
 
     user = User.query.get(session["user_id"])
+
+    if request.method == "POST":
+        # Handle profile photo upload
+        if "profile_photo" in request.files:
+            file = request.files["profile_photo"]
+            if file.filename != "":
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+                user.profile_photo = filename  # Save the filename in the database
+                db.session.commit()
+                flash("Profile photo updated successfully!", "success")
+
+        # Handle other profile updates (e.g., name, email, etc.)
+        user.name = request.form.get("name", user.name)
+        user.email = request.form.get("email", user.email)
+        db.session.commit()
+        flash("Profile updated successfully!", "success")
+        return redirect(url_for("profile"))
+
     return render_template("profile.html", user=user)
 
 # Get Hired Route
@@ -127,7 +153,7 @@ def hire_person():
     job_seekers = JobSeeker.query.all()
     return render_template("hire_person.html", job_seekers=job_seekers)
 
-# Post Job Route
+# Post Job Route (for companies)
 @app.route("/post_job", methods=["POST"])
 def post_job():
     if "user_id" not in session:
@@ -154,7 +180,7 @@ def post_job():
     db.session.commit()
 
     flash("Job posted successfully!", "success")
-    return redirect(url_for("dashboard"))
+    return redirect(url_for("hire_person"))
 
 # Post Requirements Route (for job seekers)
 @app.route("/post_requirements", methods=["POST"])
@@ -192,7 +218,7 @@ def post_requirements():
 
 # Route to serve uploaded files
 @app.route("/uploads/<filename>")
-def download_file(filename):
+def uploaded_file(filename):
     return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
 # Run the application

@@ -7,11 +7,11 @@
     <style>
       body {
         background-image: url("{{ url_for('static', filename='background.jpg') }}");
-        background-size: cover; /* Ensures the image covers the entire background */
-        background-position: center; /* Centers the image */
-        background-repeat: no-repeat; /* Prevents the image from repeating */
-        background-attachment: fixed; /* Ensures the image stays fixed while scrolling */
-        height: 100vh; /* Ensures the body takes up the full viewport height */
+        background-size: cover; 
+        background-position: center; 
+        background-repeat: no-repeat;
+        background-attachment: fixed; 
+        height: 100vh; 
         margin: 0;
         padding: 0;
       }
@@ -37,7 +37,7 @@
         font-size: 20px;
         font-weight: bold;
         background: white;
-        border-bottom: 2px solid #800000; /* Dark maroon border */
+        border-bottom: 2px solid #800000;
         position: fixed;
         top: 0;
         left: 0;
@@ -56,7 +56,7 @@
       }
       .option {
         text-align: center;
-        border: 2px solid #800000; /* Dark maroon border */
+        border: 2px solid #800000; 
         padding: 20px;
         border-radius: 10px;
         cursor: pointer;
@@ -64,40 +64,40 @@
         transition: 0.3s;
       }
       .option:hover {
-        background: #f4f4f4; /* Light gray background on hover */
+        background: #f4f4f4; 
         transform: scale(1.05);
       }
       .btn {
         margin-top: 10px;
-        padding: 15px 30px; /* Increased padding for bigger buttons */
-        font-size: 18px; /* Increased font size */
+        padding: 15px 30px; 
+        font-size: 18px; 
         border: none;
         background: linear-gradient(
           90deg,
           #993333,
           #800000
-        ); /* Maroon gradient */
+        );
         color: white;
         cursor: pointer;
         border-radius: 8px;
         display: block;
         margin: auto;
         transition: 0.3s;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Added shadow */
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
       }
       .btn:hover {
         background: linear-gradient(
           90deg,
           #a52a2a,
           #4b0000
-        ); /* Darker maroon gradient */
+        ); 
         transform: scale(1.05);
-        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15); 
       }
       .start-btn {
         margin-top: 30px;
-        padding: 20px 40px; /* Increased padding for bigger button */
-        font-size: 20px; /* Increased font size */
+        padding: 20px 40px; 
+        font-size: 20px; 
       }
       .chat-container {
         width: 60%;
@@ -105,13 +105,13 @@
         height: 80vh;
         display: flex;
         flex-direction: column;
-        border: 2px solid #800000; /* Dark maroon border */
+        border: 2px solid #800000; 
         border-radius: 16px;
         background: white;
         box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
         overflow: hidden;
         margin-top: 100px;
-        display: none; /* Initially hidden */
+        display: none; 
       }
       .chat-box {
         flex: 1;
@@ -136,12 +136,12 @@
           90deg,
           #993333,
           #800000
-        ); /* Maroon gradient */
+        ); 
         color: white;
         align-self: flex-end;
       }
       .bot-message {
-        background: #f4f4f4; /* Light gray for bot messages */
+        background: #f4f4f4; 
         color: #444;
         align-self: flex-start;
       }
@@ -153,7 +153,7 @@
         display: flex;
         padding: 10px;
         background: white;
-        border-top: 2px solid #800000; /* Dark maroon border */
+        border-top: 2px solid #800000; 
       }
       #userInput {
         flex: 1;
@@ -161,7 +161,7 @@
         border: 1px solid #ccc;
         border-radius: 8px;
         font-size: 16px;
-        background: #faf8f5; /* Light off-white */
+        background: #faf8f5; 
         color: #444;
       }
       #sendButton {
@@ -171,7 +171,7 @@
           90deg,
           #993333,
           #800000
-        ); /* Maroon gradient */
+        ); 
         color: white;
         border: none;
         border-radius: 8px;
@@ -184,33 +184,33 @@
           90deg,
           #a52a2a,
           #4b0000
-        ); /* Darker maroon gradient */
+        ); 
         transform: scale(1.05);
       }
       .back-btn {
         margin-top: 20px;
-        padding: 15px 30px; /* Increased padding for bigger button */
-        font-size: 18px; /* Increased font size */
+        padding: 15px 30px; 
+        font-size: 18px; 
         border: none;
         background: linear-gradient(
           90deg,
           #993333,
           #800000
-        ); /* Maroon gradient */
+        ); 
         color: white;
         cursor: pointer;
         border-radius: 8px;
         transition: 0.3s;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Added shadow */
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
       }
       .back-btn:hover {
         background: linear-gradient(
           90deg,
           #a52a2a,
           #4b0000
-        ); /* Darker maroon gradient */
+        ); 
         transform: scale(1.05);
-        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15); 
       }
     </style>
   </head>
@@ -275,7 +275,7 @@
           chatBox.appendChild(thinkingMessage);
           chatBox.scrollTop = chatBox.scrollHeight;
 
-          // 🔹 Modify the prompt to **force AI to respond only to relevant questions**
+          
           let modifiedMessage = `You are a job and business assistant. Answer ONLY if the question is related to jobs, employment, hiring, resumes, careers, business, or startups. If the question is unrelated, reply with: "⚠️ Please ask a relevant question related to jobs or business." The user's message is: "${message}"`;
 
           try {
@@ -325,7 +325,7 @@
           }
         }
 
-        // Show chat container when "Chat with us" button is clicked
+        
         document
           .getElementById("startChat")
           .addEventListener("click", function (event) {
@@ -335,7 +335,7 @@
               "none";
           });
 
-        // Show dashboard container when "Back to Dashboard" button is clicked
+        
         document
           .getElementById("backButton")
           .addEventListener("click", function (event) {

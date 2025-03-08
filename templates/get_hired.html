@@ -40,15 +40,15 @@
           230,
           204,
           0.95
-        ); /* Light beige with transparency */
-        color: #800000; /* Maroon */
+        ); 
+        color: #800000; 
         padding: 15px;
         border-radius: 10px;
         box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
       }
 
       .navbar .profile a {
-        color: #800000; /* Maroon */
+        color: #800000; 
         text-decoration: none;
         font-weight: bold;
       }
@@ -66,7 +66,7 @@
           230,
           204,
           0.95
-        ); /* Light beige with transparency */
+        ); 
         padding: 10px;
         border-radius: 10px;
         box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
@@ -84,7 +84,7 @@
           90deg,
           #993333,
           #800000
-        ); /* Maroon gradient */
+        ); 
         color: white;
         text-align: center;
         margin: 5px;
@@ -98,7 +98,7 @@
           90deg,
           #a52a2a,
           #4b0000
-        ); /* Darker maroon gradient */
+        ); 
         transform: scale(1.05);
       }
 
@@ -128,7 +128,7 @@
           230,
           204,
           0.95
-        ); /* Light beige with transparency */
+        ); 
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
@@ -152,7 +152,7 @@
           90deg,
           #993333,
           #800000
-        ); /* Maroon gradient */
+        ); 
         color: white;
         border: none;
         padding: 10px;
@@ -167,7 +167,7 @@
           90deg,
           #a52a2a,
           #4b0000
-        ); /* Darker maroon gradient */
+        ); 
         transform: scale(1.05);
       }
 
@@ -179,7 +179,7 @@
           90deg,
           #993333,
           #800000
-        ); /* Maroon gradient */
+        ); 
         color: white;
         padding: 15px;
         border-radius: 50px;
@@ -197,7 +197,7 @@
           90deg,
           #a52a2a,
           #4b0000
-        ); /* Darker maroon gradient */
+        ); 
         transform: scale(1.05);
       }
 
@@ -214,7 +214,7 @@
           230,
           204,
           0.95
-        ); /* Light beige with transparency */
+        ); 
         border-radius: 10px;
         box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
         display: flex;
@@ -223,7 +223,7 @@
 
       .form-container h2 {
         text-align: center;
-        color: #800000; /* Maroon */
+        color: #800000; 
         margin-bottom: 20px;
       }
 
@@ -232,7 +232,7 @@
           90deg,
           #993333,
           #800000
-        ); /* Maroon gradient */
+        ); 
         border: none;
         width: 100%;
         padding: 10px;
@@ -247,20 +247,20 @@
           90deg,
           #a52a2a,
           #4b0000
-        ); /* Darker maroon gradient */
+        ); 
         transform: scale(1.05);
       }
 
       .photo-preview {
         width: 200px;
         height: 200px;
-        border: 2px dashed #800000; /* Maroon border */
+        border: 2px dashed #800000; 
         border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
-        background: #faf8f5; /* Light off-white */
+        background: #faf8f5; 
       }
 
       .photo-preview img {
@@ -274,7 +274,7 @@
       }
 
       .form-control {
-        background: #faf8f5; /* Light off-white */
+        background: #faf8f5; 
         color: #444;
         border: 1px solid #ccc;
         border-radius: 8px;
@@ -284,8 +284,8 @@
       }
 
       .form-control:focus {
-        border-color: #800000; /* Maroon */
-        box-shadow: 0 0 5px rgba(128, 0, 0, 0.5); /* Maroon shadow */
+        border-color: #800000; 
+        box-shadow: 0 0 5px rgba(128, 0, 0, 0.5); 
       }
     </style>
 
@@ -297,10 +297,9 @@
         document.getElementById(sectionId).classList.add("active");
       }
 
-      // JavaScript for Applying to Jobs
       function applyJob(jobId) {
         const button = document.getElementById(`apply-btn-${jobId}`);
-        button.disabled = true; // Disable the button to prevent multiple clicks
+        button.disabled = true; 
 
         fetch(`/apply_job/${jobId}`, {
           method: "POST",
@@ -312,14 +311,14 @@
             if (response.redirected) {
               window.location.href = response.url;
             } else if (response.ok) {
-              button.textContent = "Interested"; // Update button text
-              button.style.backgroundColor = "#6c757d"; // Change button color to gray
+              button.textContent = "Interested"; 
+              button.style.backgroundColor = "#6c757d"; 
               alert("You have successfully applied for this job!");
             }
           })
           .catch((error) => {
             console.error("Error:", error);
-            button.disabled = false; // Re-enable the button if there's an error
+            button.disabled = false; 
           });
       }
     </script>
@@ -373,7 +372,7 @@
       <div id="post-requirements" class="content-section">
         <h1>Post Your Job</h1>
         <div class="form-container">
-          <!-- Photo Preview Section -->
+
           <div class="photo-preview">
             <img
               id="preview"
@@ -384,14 +383,13 @@
             <span id="placeholder">Upload your profile photo</span>
           </div>
 
-          <!-- Form Fields Section -->
           <div class="form-fields">
             <form
               action="{{ url_for('post_requirements') }}"
               method="POST"
               enctype="multipart/form-data"
             >
-              <!-- Name -->
+
               <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
                 <input
@@ -403,7 +401,7 @@
                 />
               </div>
 
-              <!-- Skills -->
+
               <div class="mb-3">
                 <label for="skills" class="form-label">Skills</label>
                 <input
@@ -415,7 +413,7 @@
                 />
               </div>
 
-              <!-- Expected Salary -->
+
               <div class="mb-3">
                 <label for="salary" class="form-label">Expected Salary</label>
                 <input
@@ -427,7 +425,6 @@
                 />
               </div>
 
-              <!-- Upload CV -->
               <div class="mb-3">
                 <label for="cv" class="form-label"
                   >Upload CV (PDF or Word)</label
@@ -442,7 +439,6 @@
                 />
               </div>
 
-              <!-- Upload Photo -->
               <div class="mb-3">
                 <label for="photo" class="form-label"
                   >Upload Profile Photo (JPEG or PNG)</label
@@ -457,7 +453,7 @@
                 />
               </div>
 
-              <!-- Submit Button -->
+
               <button type="submit" class="btn btn-submit">Submit</button>
             </form>
           </div>
@@ -465,7 +461,6 @@
       </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
   </body>

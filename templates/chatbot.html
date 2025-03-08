@@ -92,7 +92,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const API_KEY = "KEY";
+            const API_KEY = "AIzaSyBrJ5HfwxNDHBp8QtIn8nI6ntv0HfIVQlc";
             const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${API_KEY}`;
     
             async function sendMessage() {
@@ -118,7 +118,7 @@
                 // 🔹 Modify the prompt to **force AI to respond only to relevant questions**
                 let modifiedMessage = `You are a job and business assistant. Answer ONLY if the question is related to jobs, employment, hiring, resumes, careers, business, or startups. If the question is unrelated, reply with: "⚠️ Please ask a relevant question related to jobs or business." The user's message is: "${message}"`;
 
-    
+     
                 try {
                     let response = await fetch(API_URL, {
                         method: "POST",

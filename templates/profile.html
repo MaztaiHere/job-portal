@@ -10,16 +10,6 @@
         padding: 0;
         box-sizing: border-box;
       }
-      body {
-        background-image: url("{{ url_for('static', filename='background.jpg') }}");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        height: 100vh;
-        margin: 0;
-        padding: 0;
-      }
 
       body {
         font-family: Arial, sans-serif;
@@ -33,6 +23,19 @@
         min-height: 100vh;
         padding: 20px;
         overflow-y: auto;
+      }
+      body {
+        background-image: url("{{ url_for('static', filename='background.jpg') }}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        display: flex; /* Added to center the container */
+        justify-content: center; /* Center horizontally */
+        align-items: center; /* Center vertically */
       }
 
       .profile {

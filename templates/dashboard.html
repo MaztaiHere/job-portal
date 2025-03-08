@@ -7,11 +7,11 @@
     <style>
       body {
         background-image: url("{{ url_for('static', filename='background.jpg') }}");
-        background-size: cover; 
-        background-position: center; 
+        background-size: cover;
+        background-position: center;
         background-repeat: no-repeat;
-        background-attachment: fixed; 
-        height: 100vh; 
+        background-attachment: fixed;
+        height: 100vh;
         margin: 0;
         padding: 0;
       }
@@ -56,7 +56,7 @@
       }
       .option {
         text-align: center;
-        border: 2px solid #800000; 
+        border: 2px solid #800000;
         padding: 20px;
         border-radius: 10px;
         cursor: pointer;
@@ -64,40 +64,32 @@
         transition: 0.3s;
       }
       .option:hover {
-        background: #f4f4f4; 
+        background: #f4f4f4;
         transform: scale(1.05);
       }
       .btn {
         margin-top: 10px;
-        padding: 15px 30px; 
-        font-size: 18px; 
+        padding: 15px 30px;
+        font-size: 18px;
         border: none;
-        background: linear-gradient(
-          90deg,
-          #993333,
-          #800000
-        );
+        background: linear-gradient(90deg, #993333, #800000);
         color: white;
         cursor: pointer;
         border-radius: 8px;
         display: block;
         margin: auto;
         transition: 0.3s;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
       }
       .btn:hover {
-        background: linear-gradient(
-          90deg,
-          #a52a2a,
-          #4b0000
-        ); 
+        background: linear-gradient(90deg, #a52a2a, #4b0000);
         transform: scale(1.05);
-        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15); 
+        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
       }
       .start-btn {
         margin-top: 30px;
-        padding: 20px 40px; 
-        font-size: 20px; 
+        padding: 20px 40px;
+        font-size: 20px;
       }
       .chat-container {
         width: 60%;
@@ -105,13 +97,13 @@
         height: 80vh;
         display: flex;
         flex-direction: column;
-        border: 2px solid #800000; 
+        border: 2px solid #800000;
         border-radius: 16px;
         background: white;
         box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
         overflow: hidden;
         margin-top: 100px;
-        display: none; 
+        display: none;
       }
       .chat-box {
         flex: 1;
@@ -132,16 +124,12 @@
         white-space: pre-wrap;
       }
       .user-message {
-        background: linear-gradient(
-          90deg,
-          #993333,
-          #800000
-        ); 
+        background: linear-gradient(90deg, #993333, #800000);
         color: white;
         align-self: flex-end;
       }
       .bot-message {
-        background: #f4f4f4; 
+        background: #f4f4f4;
         color: #444;
         align-self: flex-start;
       }
@@ -153,7 +141,7 @@
         display: flex;
         padding: 10px;
         background: white;
-        border-top: 2px solid #800000; 
+        border-top: 2px solid #800000;
       }
       #userInput {
         flex: 1;
@@ -161,17 +149,13 @@
         border: 1px solid #ccc;
         border-radius: 8px;
         font-size: 16px;
-        background: #faf8f5; 
+        background: #faf8f5;
         color: #444;
       }
       #sendButton {
         padding: 14px 20px;
         margin-left: 10px;
-        background: linear-gradient(
-          90deg,
-          #993333,
-          #800000
-        ); 
+        background: linear-gradient(90deg, #993333, #800000);
         color: white;
         border: none;
         border-radius: 8px;
@@ -180,37 +164,25 @@
         transition: 0.3s;
       }
       #sendButton:hover {
-        background: linear-gradient(
-          90deg,
-          #a52a2a,
-          #4b0000
-        ); 
+        background: linear-gradient(90deg, #a52a2a, #4b0000);
         transform: scale(1.05);
       }
       .back-btn {
         margin-top: 20px;
-        padding: 15px 30px; 
-        font-size: 18px; 
+        padding: 15px 30px;
+        font-size: 18px;
         border: none;
-        background: linear-gradient(
-          90deg,
-          #993333,
-          #800000
-        ); 
+        background: linear-gradient(90deg, #993333, #800000);
         color: white;
         cursor: pointer;
         border-radius: 8px;
         transition: 0.3s;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
       }
       .back-btn:hover {
-        background: linear-gradient(
-          90deg,
-          #a52a2a,
-          #4b0000
-        ); 
+        background: linear-gradient(90deg, #a52a2a, #4b0000);
         transform: scale(1.05);
-        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15); 
+        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
       }
     </style>
   </head>
@@ -275,7 +247,6 @@
           chatBox.appendChild(thinkingMessage);
           chatBox.scrollTop = chatBox.scrollHeight;
 
-          
           let modifiedMessage = `You are a job and business assistant. Answer ONLY if the question is related to jobs, employment, hiring, resumes, careers, business, or startups. If the question is unrelated, reply with: "⚠️ Please ask a relevant question related to jobs or business." The user's message is: "${message}"`;
 
           try {
@@ -325,7 +296,6 @@
           }
         }
 
-        
         document
           .getElementById("startChat")
           .addEventListener("click", function (event) {
@@ -335,7 +305,6 @@
               "none";
           });
 
-        
         document
           .getElementById("backButton")
           .addEventListener("click", function (event) {

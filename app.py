@@ -15,13 +15,15 @@ bcrypt = Bcrypt(app)
 # Ensure the upload folder exists
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
-# User Model
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
-    profile_photo = db.Column(db.String(200), nullable=True)  # New column for profile photo
+    profile_photo = db.Column(db.String(200), nullable=True)
+    dob = db.Column(db.Date, nullable=True)  # Add Date of Birth
+    phone = db.Column(db.String(15), nullable=True)  # Add Phone Number
+    gender = db.Column(db.String(10), nullable=True)  # Add Gender
 
 # Job Model
 class Job(db.Model):

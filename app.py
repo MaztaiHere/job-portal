@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 import os
 from werkzeug.utils import secure_filename
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"  # Change this to a secure secret key
@@ -43,6 +44,14 @@ class JobSeeker(db.Model):
     cv_filename = db.Column(db.String(200), nullable=False)
     photo_filename = db.Column(db.String(200), nullable=False)
 
+# Job Application Model
+class JobApplication(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    job_id = db.Column(db.Integer, db.ForeignKey("job.id"), nullable=False)
+    job_seeker_id = db.Column(db.Integer, db.ForeignKey("job_seeker.id"), nullable=False)
+    status = db.Column(db.String(50), nullable=False, default="pending")  # Status: pending, contacted, accepted, rejected
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)  # Track when the status was updated
+
 # Home Route
 @app.route("/")
 def home():
@@ -82,6 +91,7 @@ def register():
         return redirect(url_for("login"))
 
     return render_template("register.html")
+
 # Login Route
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -108,6 +118,8 @@ def dashboard():
 
     jobs = Job.query.all()
     return render_template("dashboard.html", jobs=jobs)
+
+# Profile Route
 @app.route("/profile", methods=["GET", "POST"])
 def profile():
     if "user_id" not in session:
@@ -115,25 +127,125 @@ def profile():
 
     user = User.query.get(session["user_id"])
 
+    # Fetch job applications for job seekers
+    job_seeker = JobSeeker.query.filter_by(user_id=user.id).first()
+    job_applications = []
+    if job_seeker:
+        job_applications = JobApplication.query.filter_by(job_seeker_id=job_seeker.id).all()
+
+    # Fetch job applications for employers
+    jobs_posted = Job.query.filter_by(posted_by=user.id).all()
+    employer_applications = []
+    for job in jobs_posted:
+        applications = JobApplication.query.filter_by(job_id=job.id).all()
+        for application in applications:
+            if application.status in ["contacted", "accepted", "rejected"]:  # Only finalized requests
+                job_seeker = JobSeeker.query.get(application.job_seeker_id)
+                employer_applications.append({
+                    "job_seeker_name": job_seeker.name,
+                    "status": application.status
+                })
+
     if request.method == "POST":
         # Handle profile photo upload
         if "profile_photo" in request.files:
             file = request.files["profile_photo"]
             if file.filename != "":
+                # Ensure the upload folder exists
+                os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+
+                # Save the file
                 filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-                user.profile_photo = filename  # Save the filename in the database
+                file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+                file.save(file_path)
+
+                # Update the user's profile photo in the database
+                user.profile_photo = filename
                 db.session.commit()
                 flash("Profile photo updated successfully!", "success")
 
-        # Handle other profile updates (e.g., name, email, etc.)
+        # Handle other profile updates
         user.name = request.form.get("name", user.name)
         user.email = request.form.get("email", user.email)
         db.session.commit()
         flash("Profile updated successfully!", "success")
         return redirect(url_for("profile"))
 
-    return render_template("profile.html", user=user)
+    # Pass all necessary data to the template
+    return render_template(
+        "profile.html",
+        user=user,
+        job_applications=job_applications,
+        employer_applications=employer_applications,
+        Job=Job
+    )
+
+# Apply for Job Route
+@app.route("/apply_job/<int:job_id>", methods=["POST"])
+def apply_job(job_id):
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    # Check if the user is a job seeker
+    job_seeker = JobSeeker.query.filter_by(user_id=session["user_id"]).first()
+    if not job_seeker:
+        flash("You are not registered as a job seeker.", "error")
+        return redirect(url_for("get_hired"))
+
+    # Check if the job exists
+    job = Job.query.get(job_id)
+    if not job:
+        flash("Job not found.", "error")
+        return redirect(url_for("get_hired"))
+
+    # Check if the job seeker has already applied for this job
+    existing_application = JobApplication.query.filter_by(job_id=job_id, job_seeker_id=job_seeker.id).first()
+    if existing_application:
+        flash("You have already applied for this job.", "error")
+        return redirect(url_for("get_hired"))
+
+    # Create a new job application
+    new_application = JobApplication(
+        job_id=job_id,
+        job_seeker_id=job_seeker.id,
+        status="pending"  # Default status
+    )
+    db.session.add(new_application)
+    db.session.commit()
+
+    flash("You have successfully applied for the job!", "success")
+    return redirect(url_for("get_hired"))
+
+# Contact Job Seeker Route
+@app.route("/contact_job_seeker/<int:job_seeker_id>", methods=["POST"])
+def contact_job_seeker(job_seeker_id):
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    # Check if the user is an employer
+    user = User.query.get(session["user_id"])
+    if not user:
+        flash("You are not logged in.", "error")
+        return redirect(url_for("login"))
+
+    # Check if the job seeker exists
+    job_seeker = JobSeeker.query.get(job_seeker_id)
+    if not job_seeker:
+        flash("Job seeker not found.", "error")
+        return redirect(url_for("hire_person"))
+
+    # Find the job application
+    job_application = JobApplication.query.filter_by(job_seeker_id=job_seeker_id).first()
+    if not job_application:
+        flash("No application found for this job seeker.", "error")
+        return redirect(url_for("hire_person"))
+
+    # Update the status to "contacted"
+    job_application.status = "contacted"
+    db.session.commit()
+
+    flash("You have contacted the job seeker!", "success")
+    return redirect(url_for("hire_person"))
 
 # Get Hired Route
 @app.route("/get_hired")

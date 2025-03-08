@@ -1,285 +1,470 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Get Hired | Job Portal</title>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            background-color: #333;
-            color: white;
-            padding: 15px;
-        }
-        .navbar .profile a {
-            color: white;
-            text-decoration: none;
-        }
-        .top-panel {
-            display: flex;
-            overflow-x: auto;
-            white-space: nowrap;
-            background: white;
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            margin: 20px auto;
-            width: 80%;
-        }
-        .top-panel button {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            background-color: #333;
-            color: white;
-            text-align: center;
-            margin: 5px;
-            min-width: 150px;
-        }
-        .top-panel button:hover {
-            background-color: #555;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            padding: 20px;
-        }
-        .content-section {
-            display: none;
-        }
-        .active {
-            display: block;
-        }
-        .job-listing {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .job-box {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-        }
-        .job-logo {
-            width: 80px;
-            height: 80px;
-            margin-right: 20px;
-        }
-        .job-details {
-            flex-grow: 1;
-        }
-        .interested-btn {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .interested-btn:hover {
-            background-color: #218838;
-        }
-        .floating-chatbox {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #007bff;
-            color: white;
-            padding: 15px;
-            border-radius: 50px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-        .floating-chatbox:hover {
-            background: #0056b3;
-        }
-        .floating-chatbox i {
-            margin-right: 10px;
-        }
-        .form-container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            gap: 20px;
-        }
-        .form-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .btn-submit {
-            background-color: #28a745;
-            border: none;
-            width: 100%;
-            padding: 10px;
-            border-radius: 25px;
-        }
-        .btn-submit:hover {
-            background-color: #218838;
-        }
-        .photo-preview {
-            width: 200px;
-            height: 200px;
-            border: 2px dashed #ccc;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        .photo-preview img {
-            max-width: 100%;
-            max-height: 100%;
-            border-radius: 10px;
-        }
-        .form-fields {
-            flex: 1;
-        }
+      body {
+        background-color: #f0f0f0;
+        background-image: url("background.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        background: url("C:/Users/jjm20/OneDrive/Pictures/Screenshots/Screenshot 2025-03-08 103915.png")
+          no-repeat center center/cover;
+        color: #444;
+        margin: 0;
+        padding: 0;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        background: rgba(
+          245,
+          230,
+          204,
+          0.95
+        ); /* Light beige with transparency */
+        color: #800000; /* Maroon */
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .navbar .profile a {
+        color: #800000; /* Maroon */
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .navbar .profile a:hover {
+        text-decoration: underline;
+      }
+
+      .top-panel {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        background: rgba(
+          245,
+          230,
+          204,
+          0.95
+        ); /* Light beige with transparency */
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+        margin: 20px auto;
+        width: 80%;
+      }
+
+      .top-panel button {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        background: linear-gradient(
+          90deg,
+          #993333,
+          #800000
+        ); /* Maroon gradient */
+        color: white;
+        text-align: center;
+        margin: 5px;
+        min-width: 150px;
+        font-weight: bold;
+        transition: 0.3s;
+      }
+
+      .top-panel button:hover {
+        background: linear-gradient(
+          90deg,
+          #a52a2a,
+          #4b0000
+        ); /* Darker maroon gradient */
+        transform: scale(1.05);
+      }
+
+      .container {
+        width: 80%;
+        margin: auto;
+        padding: 20px;
+      }
+
+      .content-section {
+        display: none;
+      }
+
+      .active {
+        display: block;
+      }
+
+      .job-listing {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .job-box {
+        background: rgba(
+          245,
+          230,
+          204,
+          0.95
+        ); /* Light beige with transparency */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+      }
+
+      .job-logo {
+        width: 80px;
+        height: 80px;
+        margin-right: 20px;
+      }
+
+      .job-details {
+        flex-grow: 1;
+        color: #444;
+      }
+
+      .interested-btn {
+        background: linear-gradient(
+          90deg,
+          #993333,
+          #800000
+        ); /* Maroon gradient */
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: 0.3s;
+      }
+
+      .interested-btn:hover {
+        background: linear-gradient(
+          90deg,
+          #a52a2a,
+          #4b0000
+        ); /* Darker maroon gradient */
+        transform: scale(1.05);
+      }
+
+      .floating-chatbox {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: linear-gradient(
+          90deg,
+          #993333,
+          #800000
+        ); /* Maroon gradient */
+        color: white;
+        padding: 15px;
+        border-radius: 50px;
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 16px;
+        transition: 0.3s;
+      }
+
+      .floating-chatbox:hover {
+        background: linear-gradient(
+          90deg,
+          #a52a2a,
+          #4b0000
+        ); /* Darker maroon gradient */
+        transform: scale(1.05);
+      }
+
+      .floating-chatbox i {
+        margin-right: 10px;
+      }
+
+      .form-container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background: rgba(
+          245,
+          230,
+          204,
+          0.95
+        ); /* Light beige with transparency */
+        border-radius: 10px;
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+        display: flex;
+        gap: 20px;
+      }
+
+      .form-container h2 {
+        text-align: center;
+        color: #800000; /* Maroon */
+        margin-bottom: 20px;
+      }
+
+      .btn-submit {
+        background: linear-gradient(
+          90deg,
+          #993333,
+          #800000
+        ); /* Maroon gradient */
+        border: none;
+        width: 100%;
+        padding: 10px;
+        border-radius: 25px;
+        color: white;
+        font-weight: bold;
+        transition: 0.3s;
+      }
+
+      .btn-submit:hover {
+        background: linear-gradient(
+          90deg,
+          #a52a2a,
+          #4b0000
+        ); /* Darker maroon gradient */
+        transform: scale(1.05);
+      }
+
+      .photo-preview {
+        width: 200px;
+        height: 200px;
+        border: 2px dashed #800000; /* Maroon border */
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: #faf8f5; /* Light off-white */
+      }
+
+      .photo-preview img {
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 10px;
+      }
+
+      .form-fields {
+        flex: 1;
+      }
+
+      .form-control {
+        background: #faf8f5; /* Light off-white */
+        color: #444;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 14px;
+        margin: 12px 0;
+        font-size: 16px;
+      }
+
+      .form-control:focus {
+        border-color: #800000; /* Maroon */
+        box-shadow: 0 0 5px rgba(128, 0, 0, 0.5); /* Maroon shadow */
+      }
     </style>
+
     <script>
-        function showSection(sectionId) {
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            document.getElementById(sectionId).classList.add('active');
-        }
-
-        // JavaScript for Photo Preview
-        const photoInput = document.getElementById('photo');
-        const preview = document.getElementById('preview');
-        const placeholder = document.getElementById('placeholder');
-
-        photoInput.addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                    placeholder.style.display = 'none';
-                };
-                reader.readAsDataURL(file);
-            } else {
-                preview.src = '#';
-                preview.style.display = 'none';
-                placeholder.style.display = 'block';
-            }
+      function showSection(sectionId) {
+        document.querySelectorAll(".content-section").forEach((section) => {
+          section.classList.remove("active");
         });
+        document.getElementById(sectionId).classList.add("active");
+      }
+
+      // JavaScript for Applying to Jobs
+      function applyJob(jobId) {
+        const button = document.getElementById(`apply-btn-${jobId}`);
+        button.disabled = true; // Disable the button to prevent multiple clicks
+
+        fetch(`/apply_job/${jobId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => {
+            if (response.redirected) {
+              window.location.href = response.url;
+            } else if (response.ok) {
+              button.textContent = "Interested"; // Update button text
+              button.style.backgroundColor = "#6c757d"; // Change button color to gray
+              alert("You have successfully applied for this job!");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            button.disabled = false; // Re-enable the button if there's an error
+          });
+      }
     </script>
-</head>
-<body>
+  </head>
+  <body>
     <nav class="navbar">
-        <div class="logo">Job Portal</div>
-        <div class="profile"><a href="#"><i class="fas fa-user"></i> Profile</a></div>
+      <div class="logo">byte-hire</div>
+      <div class="profile">
+        <a href="{{ url_for('profile') }}"
+          ><i class="fas fa-user"></i> Profile</a
+        >
+      </div>
     </nav>
-    
+
     <div class="top-panel">
-        <button onclick="showSection('available-jobs')">Available Jobs</button>
-        <button onclick="showSection('post-requirements')">Post Your Job</button>
+      <button onclick="showSection('available-jobs')">Available Jobs</button>
+      <button onclick="showSection('post-requirements')">Post Your Job</button>
     </div>
-    
+
     <div class="container">
-        <div id="available-jobs" class="content-section active">
-            <h1>Available Jobs for You</h1>
-            <div class="job-listing">
-                {% if jobs %}
-                    {% for job in jobs %}
-                        <div class="job-box">
-                            <div class="job-details">
-                                <h2>{{ job.title }}</h2>
-                                <p><strong>Company:</strong> {{ job.company_name }}</p>
-                                <p><strong>Location:</strong> {{ job.location }}</p>
-                                <p><strong>Salary:</strong> {{ job.salary }}</p>
-                                <p><strong>Skills Required:</strong> {{ job.skills_required }}</p>
-                                <p><strong>Description:</strong> {{ job.description }}</p>
-                            </div>
-                            <button class="interested-btn">Interested</button>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <p>No jobs available at the moment.</p>
-                {% endif %}
+      <div id="available-jobs" class="content-section active">
+        <h1>Available Jobs for You</h1>
+        <div class="job-listing">
+          {% if jobs %} {% for job in jobs %}
+          <div class="job-box">
+            <div class="job-details">
+              <h2>{{ job.title }}</h2>
+              <p><strong>Company:</strong> {{ job.company_name }}</p>
+              <p><strong>Location:</strong> {{ job.location }}</p>
+              <p><strong>Salary:</strong> {{ job.salary }}</p>
+              <p><strong>Skills Required:</strong> {{ job.skills_required }}</p>
+              <p><strong>Description:</strong> {{ job.description }}</p>
             </div>
+            <button
+              id="apply-btn-{{ job.id }}"
+              class="interested-btn"
+              onclick="applyJob({{ job.id }})"
+            >
+              {% if job.id in applied_job_ids %}Interested{% else
+              %}Interested?{% endif %}
+            </button>
+          </div>
+          {% endfor %} {% else %}
+          <p>No jobs available at the moment.</p>
+          {% endif %}
         </div>
-        
-        <div id="post-requirements" class="content-section">
-            <h1>Post Your Job</h1>
-            <div class="form-container">
-                <!-- Photo Preview Section -->
-                <div class="photo-preview">
-                    <img id="preview" src="#" alt="Profile Photo Preview" style="display: none;">
-                    <span id="placeholder">Upload your profile photo</span>
-                </div>
+      </div>
 
-                <!-- Form Fields Section -->
-                <div class="form-fields">
-                    <form action="{{ url_for('post_requirements') }}" method="POST" enctype="multipart/form-data">
-                        <!-- Name -->
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
-                        </div>
+      <div id="post-requirements" class="content-section">
+        <h1>Post Your Job</h1>
+        <div class="form-container">
+          <!-- Photo Preview Section -->
+          <div class="photo-preview">
+            <img
+              id="preview"
+              src="#"
+              alt="Profile Photo Preview"
+              style="display: none"
+            />
+            <span id="placeholder">Upload your profile photo</span>
+          </div>
 
-                        <!-- Skills -->
-                        <div class="mb-3">
-                            <label for="skills" class="form-label">Skills</label>
-                            <input type="text" class="form-control" id="skills" name="skills" required>
-                        </div>
+          <!-- Form Fields Section -->
+          <div class="form-fields">
+            <form
+              action="{{ url_for('post_requirements') }}"
+              method="POST"
+              enctype="multipart/form-data"
+            >
+              <!-- Name -->
+              <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  name="name"
+                  required
+                />
+              </div>
 
-                        <!-- Expected Salary -->
-                        <div class="mb-3">
-                            <label for="salary" class="form-label">Expected Salary</label>
-                            <input type="text" class="form-control" id="salary" name="salary" required>
-                        </div>
+              <!-- Skills -->
+              <div class="mb-3">
+                <label for="skills" class="form-label">Skills</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="skills"
+                  name="skills"
+                  required
+                />
+              </div>
 
-                        <!-- Upload CV -->
-                        <div class="mb-3">
-                            <label for="cv" class="form-label">Upload CV (PDF or Word)</label>
-                            <input type="file" class="form-control" id="cv" name="cv" accept=".pdf,.doc,.docx" required>
-                        </div>
+              <!-- Expected Salary -->
+              <div class="mb-3">
+                <label for="salary" class="form-label">Expected Salary</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="salary"
+                  name="salary"
+                  required
+                />
+              </div>
 
-                        <!-- Upload Photo -->
-                        <div class="mb-3">
-                            <label for="photo" class="form-label">Upload Profile Photo (JPEG or PNG)</label>
-                            <input type="file" class="form-control" id="photo" name="photo" accept=".jpg,.jpeg,.png" required>
-                        </div>
+              <!-- Upload CV -->
+              <div class="mb-3">
+                <label for="cv" class="form-label"
+                  >Upload CV (PDF or Word)</label
+                >
+                <input
+                  type="file"
+                  class="form-control"
+                  id="cv"
+                  name="cv"
+                  accept=".pdf,.doc,.docx"
+                  required
+                />
+              </div>
 
-                        <!-- Submit Button -->
-                        <button type="submit" class="btn btn-submit">Submit</button>
-                    </form>
-                </div>
-            </div>
+              <!-- Upload Photo -->
+              <div class="mb-3">
+                <label for="photo" class="form-label"
+                  >Upload Profile Photo (JPEG or PNG)</label
+                >
+                <input
+                  type="file"
+                  class="form-control"
+                  id="photo"
+                  name="photo"
+                  accept=".jpg,.jpeg,.png"
+                  required
+                />
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" class="btn btn-submit">Submit</button>
+            </form>
+          </div>
         </div>
-    </div>
-    
-    <div class="floating-chatbox">
-        <i class="fas fa-comments"></i> Chat with us
+      </div>
     </div>
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-</body>
+  </body>
 </html>

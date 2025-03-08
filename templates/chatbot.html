@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .chat-container {
+            width: 60%;
+            max-width: 800px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        .chat-box {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            border-bottom: 2px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        .chat-box div {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+            max-width: 75%;
+            white-space: pre-wrap;
+        }
+        .user-message {
+            background-color: #e1ffc7;
+            align-self: flex-end;
+        }
+        .bot-message {
+            background-color: #d4e3fc;
+            align-self: flex-start;
+        }
+        .thinking {
+            font-style: italic;
+            color: gray;
+        }
+        .input-container {
+            display: flex;
+            padding: 10px;
+            background: #fff;
+        }
+        #userInput {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        #sendButton {
+            padding: 10px 15px;
+            margin-left: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #sendButton:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div id="chatBox" class="chat-box"></div>
+        <div class="input-container">
+            <input type="text" id="userInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+            <button id="sendButton" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const API_KEY = "KEY";
+            const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${API_KEY}`;
+    
+            async function sendMessage() {
+                let inputField = document.getElementById("userInput");
+                let chatBox = document.getElementById("chatBox");
+                let message = inputField.value.trim();
+    
+                if (message === "") return;
+    
+                let userMessage = document.createElement("div");
+                userMessage.textContent = message;
+                userMessage.classList.add("user-message");
+                chatBox.appendChild(userMessage);
+                chatBox.scrollTop = chatBox.scrollHeight;
+                inputField.value = "";
+    
+                let thinkingMessage = document.createElement("div");
+                thinkingMessage.textContent = "Thinking...";
+                thinkingMessage.classList.add("thinking");
+                chatBox.appendChild(thinkingMessage);
+                chatBox.scrollTop = chatBox.scrollHeight;
+    
+                // 🔹 Modify the prompt to **force AI to respond only to relevant questions**
+                let modifiedMessage = `You are a job and business assistant. Answer ONLY if the question is related to jobs, employment, hiring, resumes, careers, business, or startups. If the question is unrelated, reply with: "⚠️ Please ask a relevant question related to jobs or business." The user's message is: "${message}"`;
+
+    
+                try {
+                    let response = await fetch(API_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: modifiedMessage }] }]
+                        })
+                    });
+    
+                    let data = await response.json();
+                    console.log("API Response:", data);
+    
+                    chatBox.removeChild(thinkingMessage);
+    
+                    if (data.error) {
+                        throw new Error(`API Error: ${data.error.message}`);
+                    }
+    
+                    if (data.candidates && data.candidates.length > 0) {
+                        let botText = data.candidates[0].content.parts[0].text || "No response received.";
+                        botText = botText.replace(/\*/g, "");
+                        let botMessage = document.createElement("div");
+                        botMessage.innerHTML = botText.replace(/\n/g, "<br>");
+                        botMessage.classList.add("bot-message");
+                        chatBox.appendChild(botMessage);
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                    } else {
+                        throw new Error("Unexpected API response format.");
+                    }
+    
+                } catch (error) {
+                    console.error("Error:", error);
+                    chatBox.removeChild(thinkingMessage);
+                    let errorMessage = document.createElement("div");
+                    errorMessage.textContent = "Error: " + error.message;
+                    errorMessage.style.color = "red";
+                    chatBox.appendChild(errorMessage);
+                }
+            }
+    
+            function handleKeyPress(event) {
+                if (event.key === "Enter") {
+                    sendMessage();
+                }
+            }
+    
+            window.sendMessage = sendMessage;
+            window.handleKeyPress = handleKeyPress;
+        });
+    </script>
+    
+</body>
+</html>

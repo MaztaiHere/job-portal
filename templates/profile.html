@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1e1e2e;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100vw;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .profile {
+            width: 80%;
+            max-width: 800px;
+            background: #2c2c3e;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .pic {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 3px solid #4caf50;
+        }
+
+        .details {
+            flex-grow: 1;
+            background: #3a3a4e;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .details h1 {
+            margin-bottom: 15px;
+            color: #4caf50;
+        }
+
+        .details label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .details input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 5px;
+            background: #555;
+            color: white;
+            font-size: 16px;
+        }
+
+        .edit {
+            background: #e67e22;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 16px;
+        }
+
+        #save {
+            display: none;
+            background: #28a745;
+        }
+
+        .requests {
+            width: 80%;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .requests2 {
+            width: 50%;
+            background: #2c2c3e;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background 0.3s ease;
+        }
+
+        .requests2:hover {
+            background: #3a3a5e;
+        }
+
+        .requests2.active {
+            background: #3498db;
+        }
+
+        .request-list {
+            width: 80%;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+
+        .request3 {
+            background: #444;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-hired {
+            color: #4caf50;
+            font-weight: bold;
+        }
+
+        .status-rejected {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .upload-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .upload-section input[type="file"] {
+            display: none;
+        }
+
+        .upload-section label {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .upload-section label:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile">
+        <div class="upload-section">
+            <img src="placeholder.jpg" alt="Profile Photo" class="pic" id="profilePic">
+            <input type="file" id="fileInput" accept="image/*">
+            <label for="fileInput">Upload Photo</label>
+        </div>
+        <div class="details">
+            <h1>Personal Details</h1>
+            <label>Name:</label>
+            <input type="text" id="name" value="Hello" disabled>
+
+            <label>Email:</label>
+            <input type="email" id="email" value="hello123@gmail.com" disabled>
+
+            <label>Date of Birth:</label>
+            <input type="date" id="dob" value="2003-01-02" disabled>
+
+            <label>Phone Number:</label>
+            <input type="text" id="phone" value="1234567890" disabled>
+
+            <label>Gender:</label>
+            <input type="text" id="gender" value="Male" disabled>
+
+            <button class="edit" onclick="enableEdit()">Edit</button>
+            <button class="edit" id="save" onclick="saveChanges()">Save</button>
+        </div>
+    </div>
+
+    <div class="requests">
+        <div class="requests2 active" id="pendingTab" onclick="toggleRequests('pendingRequests')">Pending Requests</div>
+        <div class="requests2" id="finalizedTab" onclick="toggleRequests('finalizedRequests')">Finalized Requests</div>
+    </div>
+
+    <div class="request-list" id="pendingRequests" style="display: block;">
+        <div class="request3"><span>Company A</span><span>Pending</span></div>
+        <div class="request3"><span>Company B</span><span>Pending</span></div>
+    </div>
+
+    <div class="request-list" id="finalizedRequests">
+        <div class="request3"><span>Company C</span><span class="status-hired">ACCEPTED</span></div>
+        <div class="request3"><span>Company D</span><span class="status-rejected">Rejected</span></div>
+    </div>
+
+    <script>
+        // Function to enable editing of profile details
+        function enableEdit() {
+            document.querySelectorAll(".details input").forEach(input => input.disabled = false);
+            document.getElementById("save").style.display = "inline-block";
+        }
+
+        // Function to save changes
+        function saveChanges() {
+            document.querySelectorAll(".details input").forEach(input => input.disabled = true);
+            document.getElementById("save").style.display = "none";
+            alert("Profile Updated Successfully!");
+        }
+
+        // Function to toggle between pending and finalized requests
+        function toggleRequests(sectionId) {
+            document.querySelectorAll(".requests2").forEach(tab => tab.classList.remove("active"));
+            document.getElementById(sectionId === "pendingRequests" ? "pendingTab" : "finalizedTab").classList.add("active");
+            document.getElementById("pendingRequests").style.display = sectionId === "pendingRequests" ? "block" : "none";
+            document.getElementById("finalizedRequests").style.display = sectionId === "finalizedRequests" ? "block" : "none";
+        }
+
+        // Function to handle profile photo upload
+        document.getElementById("fileInput").addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById("profilePic").src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
